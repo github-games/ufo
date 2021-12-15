@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 400 184" style="enable-background:new 0 0 400 184;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#78CBC7;}
+	.st1{fill:#058389;}
+</style>
+<circle id="right" class="st0" cx="367.1" cy="35.8" r="8"/>
+<circle id="left" class="st0" cx="33" cy="35.8" r="8"/>
+<path id="right_1_" class="st1" d="M362,41.5c1.7-0.5,3.8,1.4,3.8,1.4l-12.6,27.6l-6.9-2.1L362,41.5z"/>
+<path id="left_1_" class="st1" d="M53.8,68.5L38.1,41.8c-2.1-0.4-3.8,1.4-3.8,1.4l12.6,27.3"/>
+<path id="down" class="st0" d="M265.8,159.7c-7.8,14-34.2,24.3-65.4,24.3s-57.5-10.3-65.4-24.2C133.4,156.9,267.2,156.8,265.8,159.7
+	z"/>
+<path id="body" class="st1" d="M400,106.8c0,30.7-89.6,55.7-200,55.7S0,137.6,0,106.8C0,93,18,80.5,47.7,70.7
+	c2.2-0.7,4.5-1.4,6.8-2.1C91,57.9,142.7,51.1,200,51.1C310.5,51.1,400,76.2,400,106.8z"/>
+<path id="up" class="st0" d="M118.5,61.3C128.8,25.9,161.6,0,200.2,0c38.8,0,71.6,26,81.9,61.5C284.4,68.9,116.3,68.8,118.5,61.3z"/>
+<circle id="_x31_0" class="st0" cx="370.6" cy="105.2" r="7.2"/>
+<circle id="_x39_" class="st0" cx="332.8" cy="105.1" r="7.2"/>
+<circle id="_x38_" class="st0" cx="295" cy="105.1" r="7.2"/>
+<ellipse id="_x37_" transform="matrix(0.4641 -0.8858 0.8858 0.4641 44.5849 283.8501)" class="st0" cx="256.9" cy="105.1" rx="7.2" ry="7.2"/>
+<circle id="_x36_" class="st0" cx="218.9" cy="105.1" r="7.2"/>
+<circle id="_x35_" class="st0" cx="181.2" cy="105.1" r="7.2"/>
+<circle id="_x34_" class="st0" cx="143.2" cy="105.2" r="7.2"/>
+<circle id="_x33_" class="st0" cx="105.4" cy="105.2" r="7.2"/>
+<circle id="_x32_" class="st0" cx="67.5" cy="105.2" r="7.2"/>
+<circle id="_x31_" class="st0" cx="29.5" cy="105.1" r="7.2"/>
+</svg>
