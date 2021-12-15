@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onresize="resize()">
+    <canvas id="canvas">Your browser doesn't support canvas</canvas>
+    <script>
+        function resize() {
+            if (innerWidth >= innerHeight) {
+                document.getElementById("canvas").style = `height: 100%; aspect-ratio: 1`
+                document.getElementById("canvas").width = innerHeight
+                document.getElementById("canvas").height = innerHeight
+            } else if (innerHeight > innerWidth) {
+                document.getElementById("canvas").style = `width: 100%; aspect-ratio: 1`
+                document.getElementById("canvas").width = innerWidth
+                document.getElementById("canvas").height = innerWidth
+            }
+        }
+        resize()
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
