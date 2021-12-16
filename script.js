@@ -52,7 +52,7 @@ class Scene {
         this.y = (canvas.height * 0.2) - (this.height / 2) - (canvas.height * this.velocity / 100)
         c.textAlign = "center"
         c.fillStyle = "black"
-        c.font = `${canvas.height * 0.07}px Hammersmith One`
+        c.font = `${canvas.height * 0.07}px HammersmithOne`
         c.fillText("PRESS ENTER TO START", canvas.width / 2, canvas.height * 0.55)
         c.drawImage(UFO_IMAGE, this.x, this.y, this.width, this.height)
     }
@@ -73,11 +73,11 @@ class Scene {
         this.y = (canvas.height * 0.2) - (this.height / 2) - (canvas.height * this.velocity / 100)
         c.textAlign = "center"
         c.fillStyle = "black"
-        c.font = `${canvas.height * 0.07}px Hammersmith One`
+        c.font = `${canvas.height * 0.07}px HammersmithOne`
         c.fillText("PRESS ENTER TO RESTART", canvas.width / 2, canvas.height * 0.55)
         c.drawImage(UFO_IMAGE, this.x, this.y, this.width, this.height)
         c.textAlign = "left"
-        c.font = `${canvas.height * 0.05}px Hammersmith One`
+        c.font = `${canvas.height * 0.05}px HammersmithOne`
         c.fillText(`Time: ${game.time}`, canvas.width * 0.095, canvas.height * 0.75)
         c.fillText(`Score: ${game.score}`, canvas.width * 0.095, canvas.height * 0.8)
         if (higher_score) {
@@ -95,7 +95,11 @@ function start_scene_menu() {
     c.clearRect(0, 0, canvas.width, canvas.height)
     SCENE.update()
 }
-start_scene_menu()
+
+new FontFace('HammersmithOne', 'url(assets/font/HammersmithOne.ttf)').load().then(font => {
+    document.fonts.add(font);
+    start_scene_menu()
+});
 
 var game_over_scene
 
