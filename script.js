@@ -565,7 +565,7 @@ class Score {
         this.x = canvas.width * 3 / 100
         this.y = (canvas.height * 2 / 100) + this.scale
         c.textAlign = "start"
-        c.font = `${this.scale}px consolas`
+        c.font = `${this.scale}px HammersmithOne`
         c.fillStyle = "black"
         c.fillText(this.text, this.x, this.y)
     }
