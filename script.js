@@ -605,9 +605,9 @@ function start_game() {
                     }
                 } else {
                     if (game.rotate > 0) {
-                        game.rotate += 0.005
+                        game.rotate += 0.0005
                     } else {
-                        game.rotate -= 0.005
+                        game.rotate -= 0.0005
                     }
                 }
                 if (game.minRange != 0) {
@@ -627,7 +627,7 @@ function start_game() {
                     ASTEROIDS.push(new Asteroid())
                 }
                 if (DEATH_TARGETS.length < 5) {
-                    if ((game.realtimer % 30) == 0) {
+                    if ((game.realtimer % 40) == 0) {
                         DEATH_TARGETS.push(new Death_Target(DEATH_TARGETS.length))
                     }
                 }
