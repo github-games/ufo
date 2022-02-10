@@ -231,7 +231,6 @@ class PLANET_DIRECTION {
         this.update()
     }
     update() {
-        console.log("noice")
         setTimeout(() => {
             game.rotate *= Math.round(Math.random()) ? 1 : -1
             if (game.playing) this.update()
