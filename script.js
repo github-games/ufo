@@ -36,11 +36,7 @@ class Scene {
         this.up = false
     }
     update() {
-        if (this.up) {
-            this.velocity += 0.1
-        } else {
-            this.velocity -= 0.1
-        }
+        this.velocity += this.up ? 0.1 : -0.1
         if (this.velocity >= 7) {
             this.up = false
         } else if (this.velocity <= -7) {
@@ -57,11 +53,7 @@ class Scene {
         c.drawImage(UFO_IMAGE, this.x, this.y, this.width, this.height)
     }
     update2() {
-        if (this.up) {
-            this.velocity += 0.1
-        } else {
-            this.velocity -= 0.1
-        }
+        this.velocity += this.up ? 0.1 : -0.1
         if (this.velocity >= 7) {
             this.up = false
         } else if (this.velocity <= -7) {
@@ -97,9 +89,9 @@ function start_scene_menu() {
 }
 
 new FontFace('HammersmithOne', 'url(assets/font/HammersmithOne.ttf)').load().then(font => {
-    document.fonts.add(font);
+    document.fonts.add(font)
     start_scene_menu()
-});
+})
 
 var game_over_scene
 
@@ -114,20 +106,10 @@ function convertSeconds(value) {
     let hours = Math.floor(sec / 3600)
     let minutes = Math.floor((sec - hours * 3600) / 60)
     let seconds = sec - hours * 3600 - minutes * 60
-    if (hours < 10) {
-        hours = '0' + hours
-    }
-    if (minutes < 10) {
-        minutes = '0' + minutes
-    }
-    if (seconds < 10) {
-        seconds = '0' + seconds
-    }
-    if (hours == 0) {
-        game.time = minutes + ':' + seconds
-    } else {
-        game.time = hours + ':' + minutes + ':' + seconds
-    }
+    if (hours < 10) hours = '0' + hours
+    if (minutes < 10) minutes = '0' + minutes
+    if (seconds < 10) seconds = '0' + seconds
+    game.time = hours == 0 ? minutes + ':' + seconds : hours + ':' + minutes + ':' + seconds
 }
 
 function getDistance(x1, y1, x2, y2) {
@@ -244,6 +226,19 @@ class Planet {
     }
 }
 
+class PLANET_DIRECTION {
+    constructor() {
+        this.update()
+    }
+    update() {
+        console.log("noice")
+        setTimeout(() => {
+            game.rotate *= Math.round(Math.random()) ? 1 : -1
+            if (game.playing) this.update()
+        }, (Math.random() * (game.maxRange - game.minRange) + game.minRange) * 1000)
+    }
+}
+
 class Ufo {
     constructor() {
         this.width = canvas.height * 8 / 100
@@ -289,15 +284,11 @@ class Ufo {
     }
     left() {
         this.angle -= 1.3
-        if (!projectile.shoot) {
-            ufo.angle = this.angle
-        }
+        if (!projectile.shoot) ufo.angle = this.angle
     }
     right() {
         this.angle += 1.3
-        if (!projectile.shoot) {
-            ufo.angle = this.angle
-        }
+        if (!projectile.shoot) ufo.angle = this.angle
     }
 }
 
@@ -312,23 +303,22 @@ class Projectile {
         projectile.shoot = false
     }
     update() {
-        if (projectile.shoot) {
-            projectile.speed--
-            this.angle = ufo.angle
-            this.radius = canvas.height * 0.5 / 100
-            this.distance = canvas.height * projectile.speed / 100
-            projectile.x = (this.distance * Math.cos((this.angle - 90) * Math.PI / 180)) + (canvas.width / 2)
-            projectile.y = (this.distance * Math.sin((this.angle - 90) * Math.PI / 180)) + (canvas.height / 2)
-            projectile.radius = this.radius
-            c.save()
-            c.translate(canvas.width / 2, canvas.height / 2)
-            c.rotate(this.angle * Math.PI / 180)
-            c.beginPath()
-            c.arc(0, -this.distance, this.radius, 0, Math.PI * 2, false)
-            c.fillStyle = "#FDC500"
-            c.fill()
-            c.restore()
-        }
+        if (!projectile.shoot) return
+        projectile.speed--
+        this.angle = ufo.angle
+        this.radius = canvas.height * 0.5 / 100
+        this.distance = canvas.height * projectile.speed / 100
+        projectile.x = (this.distance * Math.cos((this.angle - 90) * Math.PI / 180)) + (canvas.width / 2)
+        projectile.y = (this.distance * Math.sin((this.angle - 90) * Math.PI / 180)) + (canvas.height / 2)
+        projectile.radius = this.radius
+        c.save()
+        c.translate(canvas.width / 2, canvas.height / 2)
+        c.rotate(this.angle * Math.PI / 180)
+        c.beginPath()
+        c.arc(0, -this.distance, this.radius, 0, Math.PI * 2, false)
+        c.fillStyle = "#FDC500"
+        c.fill()
+        c.restore()
     }
 }
 
@@ -514,15 +504,10 @@ class Asteroid {
         this.MOVE_COUNT = 0
     }
     update() {
-        var x, y, dx, dy
-        x = this.x
-        y = this.y
-        dx = this.dx
-        dy = this.dy
-        this.R_X = (canvas.width * x / 100) - (canvas.width * 60 / 100)
-        this.R_Y = (canvas.height * y / 100) - (canvas.height * 60 / 100)
-        this.R_DX = canvas.width * dx / 100
-        this.R_DY = canvas.height * dy / 100
+        this.R_X = (this.x - 60) * canvas.width / 100
+        this.R_Y = (this.y - 60) * canvas.height / 100
+        this.R_DX = this.dx * canvas.width / 100
+        this.R_DY = this.dy * canvas.height / 100
         this.RADIUS = canvas.height * 2 / 100
         if ((this.R_X + (this.R_DX * this.MOVE_COUNT) - this.RADIUS) < -(canvas.width * 60 / 100) || (this.R_X + (this.R_DX * this.MOVE_COUNT) + this.RADIUS) > (canvas.width * 220 / 100) - (canvas.width * 60 / 100)) {
             this.reconstruct()
@@ -540,9 +525,7 @@ class Asteroid {
             end_game()
         } else if ((getDistance(ufo.x5, ufo.y5, this.R_X + (this.R_DX * this.MOVE_COUNT), this.R_Y + (this.R_DY * this.MOVE_COUNT))) < (ufo.radius2 + this.RADIUS)) {
             end_game()
-        } else {
-            this.MOVE_COUNT++
-        }
+        } else this.MOVE_COUNT++
         c.save()
         c.beginPath()
         c.arc(this.R_X + (this.R_DX * this.MOVE_COUNT), this.R_Y + (this.R_DY * this.MOVE_COUNT), this.RADIUS, 0, Math.PI * 2, false)
@@ -553,12 +536,6 @@ class Asteroid {
 }
 
 class Score {
-    constructor() {
-        this.scale = canvas.height * 20 / 100
-        this.text = (game.score).toString()
-        this.x = canvas.width * 5 / 100
-        this.y = (canvas.height * 5 / 100) + this.scale
-    }
     update() {
         this.scale = canvas.height * 5 / 100
         this.text = (game.score).toString()
@@ -583,9 +560,7 @@ function start_game() {
     DEATH_TARGETS_POSITION = []
     ASTEROIDS = []
     SCORE = new Score()
-    for (var i = 0; i < 5; i++) {
-        ASTEROIDS.push(new Asteroid())
-    }
+    for (var i = 0; i < 5; i++) ASTEROIDS.push(new Asteroid())
     game = {
         realtimer: 0,
         timer: 0,
@@ -598,110 +573,77 @@ function start_game() {
         rotate: 0.5
     }
     var gameinterval = setInterval(() => {
-        if (game.playing) {
-            if (game.play) {
-                game.timer++
-                if (((game.rotate > 0) && (game.rotate >= 7)) || ((game.rotate < 0) && (game.rotate <= -7))) {
-                    if (game.rotate > 0) {
-                        game.rotate = 7
-                    } else {
-                        game.rotate = -7
-                    }
-                } else {
-                    if (game.rotate > 0) {
-                        game.rotate += 0.0005
-                    } else {
-                        game.rotate -= 0.0005
-                    }
-                }
-                if (game.minRange != 0) {
-                    game.minRange -= 0.0001
-                    game.maxRange -= 0.0001
-                }
-            }
-        } else {
+        if (!game.playing) {
             clearInterval(gameinterval)
+            return
+        }
+        if (game.play) {
+            game.timer++
+            if (((game.rotate > 0) && (game.rotate >= 7)) || ((game.rotate < 0) && (game.rotate <= -7))) {
+                game.rotate = game.rotate > 0 ? 7 : -7
+            } else {
+                game.rotate += game.rotate > 0 ? 0.0005 : -0.0005
+            }
+            if (game.minRange) {
+                game.minRange -= 0.0001
+                game.maxRange -= 0.0001
+            }
         }
     }, 100)
     var gameinterval2 = setInterval(() => {
-        if (game.playing) {
-            if (game.play) {
-                game.realtimer++
-                if ((game.realtimer % 7) == 0) {
-                    ASTEROIDS.push(new Asteroid())
-                }
-                if (DEATH_TARGETS.length < 5) {
-                    if ((game.realtimer % 40) == 0) {
-                        DEATH_TARGETS.push(new Death_Target(DEATH_TARGETS.length))
-                    }
-                }
-            }
-        } else {
+        if (!game.playing) {
             clearInterval(gameinterval2)
+            return
+        }
+        if (game.play) {
+            game.realtimer++
+            if ((game.realtimer % 7) == 0) ASTEROIDS.push(new Asteroid())
+            if (DEATH_TARGETS.length < 5)
+                if (!game.realtimer % 40) DEATH_TARGETS.push(new Death_Target(DEATH_TARGETS.length))
         }
     }, 1000);
     start_game_loop()
-    change_planet_direction()
+    new PLANET_DIRECTION()
 }
 
-var start_game_looping, end_game_looping
+var start_game_looping
 
 function start_game_loop() {
     start_game_looping = requestAnimationFrame(start_game_loop)
     var ended = false
     c.clearRect(0, 0, canvas.width, canvas.height)
-    if (game.play) {
-        ASTEROIDS.forEach(i => {
-            i.update()
-        })
-        DEATH_TARGETS.forEach(i => {
-            i.update()
-        })
-        PROJECTILE.update()
-        if (projectile.shoot) {
-            if (getDistance(target.x, target.y, projectile.x, projectile.y) < (target.radius + projectile.radius)) {
-                game.score++
-                AUDIO.score.play()
-                PROJECTILE.reconstruct()
-                TARGET.reconstruct()
-                DEATH_TARGETS.forEach(i => {
-                    i.reconstruct()
-                })
-            } else {
-                for (var i = 0; i < death_targets.length; i++) {
-                    if (getDistance(death_targets[i].x, death_targets[i].y, projectile.x, projectile.y) < (death_targets[i].radius + projectile.radius)) {
-                        ended = true
-                        end_game()
-                    }
+    if (!game.play) {
+        cancelAnimationFrame(start_game_looping)
+        return
+    }
+    for (let l = 0; l < ASTEROIDS.length; l++) ASTEROIDS[l].update()
+    for (let l = 0; l < DEATH_TARGETS.length; l++) DEATH_TARGETS[l].update()
+    PROJECTILE.update()
+    if (projectile.shoot) {
+        if (getDistance(target.x, target.y, projectile.x, projectile.y) < (target.radius + projectile.radius)) {
+            game.score++
+            AUDIO.score.play()
+            PROJECTILE.reconstruct()
+            TARGET.reconstruct()
+            for (let l = 0; l < DEATH_TARGETS.length; l++) DEATH_TARGETS[l].reconstruct()
+        } else {
+            for (var i = 0; i < death_targets.length; i++) {
+                if (getDistance(death_targets[i].x, death_targets[i].y, projectile.x, projectile.y) < (death_targets[i].radius + projectile.radius)) {
+                    ended = true
+                    end_game()
                 }
             }
-            if (getDistance(planet.x, planet.y, projectile.x, projectile.y) < (planet.radius + projectile.radius)) {
-                PROJECTILE.reconstruct()
-            }
         }
-        if (!ended) {
-            UFO.update()
-            TARGET.update()
-            PLANET.update()
-            SCORE.update()
-            if (pressed[37] || pressed[65]) {
-                UFO.left()
-            }
-            if (pressed[39] || pressed[68]) {
-                UFO.right()
-            }
-        }
-    } else {
-        cancelAnimationFrame(start_game_looping)
+        if (getDistance(planet.x, planet.y, projectile.x, projectile.y) < (planet.radius + projectile.radius)) PROJECTILE.reconstruct()
     }
-}
-
-function change_planet_direction() {
-    const timeout = (Math.random() * (game.maxRange - game.minRange)) + game.minRange
-    setTimeout(() => {
-        game.rotate *= (Math.round(Math.random()) ? 1 : -1)
-        change_planet_direction()
-    }, timeout * 1000);
+    if (!ended) {
+        UFO.update()
+        TARGET.update()
+        PLANET.update()
+        SCORE.update()
+        if (pressed[37] || pressed[65]) UFO.left()
+        if (pressed[39] || pressed[68]) UFO.right()
+    }
 }
 
 function end_game() {
@@ -723,41 +665,36 @@ function end_game() {
 }
 
 document.addEventListener("keydown", e => {
-    if (game.play) {
-        e = e || window.event
-        pressed[e.keyCode] = true
-    }
+    if (!game.play) return
+    e = e || window.event
+    pressed[e.keyCode] = true
 })
 
 document.addEventListener("keyup", e => {
-    if (game.play) {
-        e = e || window.event
-        delete pressed[e.keyCode]
-        if (e.keyCode == 32) {
-            if (!projectile.shoot) {
-                projectile.speed = 27
-                projectile.shoot = true
-            }
-        }
-    } else {
-        if (e.keyCode == 13) {
-            cancelAnimationFrame(starting_scene)
-            cancelAnimationFrame(game_over_scene)
-            start_game()
-            AUDIO.start.play()
-            AUDIO.music.play()
-        }
+    e = e || window.event
+    if (!game.play) {
+        if (e.keyCode != 13) return
+        cancelAnimationFrame(starting_scene)
+        cancelAnimationFrame(game_over_scene)
+        start_game()
+        AUDIO.start.play()
+        AUDIO.music.play()
+        return
     }
+    delete pressed[e.keyCode]
+    if (e.keyCode != 32) return
+    if (projectile.shoot) return
+    projectile.speed = 27
+    projectile.shoot = true
 })
 
 document.addEventListener("visibilitychange", () => {
-    if (game.playing) {
-        if (document.visibilityState == "visible") {
-            game.play = true
-            AUDIO.music.play()
-        } else {
-            game.play = false
-            AUDIO.music.pause()
-        }
+    if (!game.playing) return
+    if (document.visibilityState == "visible") {
+        game.play = true
+        AUDIO.music.play()
+        return
     }
+    game.play = false
+    AUDIO.music.pause()
 })
